@@ -90,7 +90,7 @@ export default function ProductShowcaseSection() {
 
         {/* Fixed Massive Circular Wireframe */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
-          <div className="w-[70vh] h-[70vh] rounded-full border border-white/10"></div>
+          <div className="w-[70vh] h-[70vh] rounded-full border-[2px] border-white/30"></div>
         </div>
 
         {/* Fixed Large Overlay Text */}
