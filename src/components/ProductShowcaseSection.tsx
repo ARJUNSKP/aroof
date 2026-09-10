@@ -61,28 +61,28 @@ export default function ProductShowcaseSection() {
         </div>
 
         {/* Top Left Navigation */}
-        <div className="absolute top-[150px] left-[60px] z-30 flex gap-8 text-[14px] font-semibold text-gray-400">
-          <div className={`relative pb-2 transition-colors duration-300 ${activeIndex === 0 ? 'text-white' : ''}`}>
+        <div className="absolute top-[200px] md:top-[150px] left-5 md:left-[60px] z-30 flex flex-col sm:flex-row gap-4 sm:gap-8 text-[14px] font-semibold text-gray-400">
+          <div className={`relative pb-2 transition-colors duration-300 w-fit ${activeIndex === 0 ? 'text-white' : ''}`}>
             Tile Upvc Sheet
             <div className={`absolute bottom-0 left-0 h-[2px] bg-white transition-all duration-300 ${activeIndex === 0 ? 'w-full' : 'w-0'}`}></div>
           </div>
-          <div className={`relative pb-2 transition-colors duration-300 ${activeIndex === 1 ? 'text-white' : ''}`}>
+          <div className={`relative pb-2 transition-colors duration-300 w-fit ${activeIndex === 1 ? 'text-white' : ''}`}>
             Trafford Upvc Sheet
             <div className={`absolute bottom-0 left-0 h-[2px] bg-white transition-all duration-300 ${activeIndex === 1 ? 'w-full' : 'w-0'}`}></div>
           </div>
-          <div className={`relative pb-2 transition-colors duration-300 ${activeIndex === 2 ? 'text-white' : ''}`}>
+          <div className={`relative pb-2 transition-colors duration-300 w-fit ${activeIndex === 2 ? 'text-white' : ''}`}>
             Roma Upvc Sheet
             <div className={`absolute bottom-0 left-0 h-[2px] bg-white transition-all duration-300 ${activeIndex === 2 ? 'w-full' : 'w-0'}`}></div>
           </div>
         </div>
 
         {/* Navigation Arrows */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-[40px] z-30">
+        <div className="hidden md:block absolute top-1/2 -translate-y-1/2 left-[40px] z-30">
           <div className="w-[50px] h-[50px] rounded-full border border-white/20 bg-white flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           </div>
         </div>
-        <div className="absolute top-1/2 -translate-y-1/2 right-[40px] z-30">
+        <div className="hidden md:block absolute top-1/2 -translate-y-1/2 right-[40px] z-30">
           <div className="w-[50px] h-[50px] rounded-full border border-white/20 bg-white flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
@@ -96,8 +96,8 @@ export default function ProductShowcaseSection() {
         {/* Fixed Large Overlay Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none w-full text-center">
           <h2 
-            className="text-[8vw] font-light tracking-wider text-white mix-blend-overlay transition-opacity duration-300"
-            style={{ fontFamily: 'var(--font-body)' }}
+            className="text-[8vw] font-thin tracking-wider text-white mix-blend-overlay transition-opacity duration-300"
+            style={{ fontFamily: '"Avenir Next", sans-serif' }}
           >
             {slides[activeIndex].title}
           </h2>

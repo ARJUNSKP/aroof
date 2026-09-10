@@ -1,8 +1,76 @@
+'use client';
+
+import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 
-export default function AboutSection() {
+const CountUpNumber = ({ target, suffix = '' }: { target: number, suffix?: string }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Only animate once
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    let start = 0;
+    const duration = 2000; // 2 seconds animation
+    const increment = target / (duration / 16);
+    
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.ceil(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [isVisible, target]);
+
   return (
-    <section className="w-full min-h-screen bg-white text-black py-[100px] px-[43px] relative z-10 flex flex-col justify-center">
+    <div ref={ref} className="text-[64px] font-bold leading-none mb-4 tracking-tight">
+      {count}{suffix}
+    </div>
+  );
+};
+
+export default function AboutSection() {
+  const [isGridVisible, setIsGridVisible] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsGridVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (gridRef.current) {
+      observer.observe(gridRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="w-full min-h-screen bg-white text-black py-16 md:py-[100px] px-5 md:px-[43px] relative z-10 flex flex-col justify-center">
       <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-y-[29px] lg:gap-x-[74px]">
 
         {/* Left Column */}
@@ -34,34 +102,50 @@ export default function AboutSection() {
         </div>
 
         {/* Right Column: Grid */}
-        <div className="grid grid-cols-1 mt-[30px] md:grid-cols-2 border-t border-l border-[#E5E5E5]">
+        <div ref={gridRef} className="relative grid grid-cols-1 mt-[30px] md:grid-cols-2">
+          
+          {/* Animated Outer Borders for the Grid */}
+          <div className={`absolute top-0 left-0 h-[1px] bg-[#E5E5E5] transition-all duration-1000 ease-out origin-left ${isGridVisible ? 'w-full' : 'w-0'}`}></div>
+          <div className={`absolute top-0 left-0 w-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[300ms] ease-out origin-top hidden md:block ${isGridVisible ? 'h-full' : 'h-0'}`}></div>
 
           {/* Top Left Cell */}
-          <div className="border-r border-b border-[#E5E5E5] p-8 md:p-12 flex flex-col justify-center">
-            <div className="text-[64px] font-bold leading-none mb-4 tracking-tight">15+</div>
+          <div className="relative p-8 md:p-12 flex flex-col justify-center">
+            {/* Animated Cell Borders */}
+            <div className={`absolute top-0 right-0 w-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[300ms] ease-out origin-top ${isGridVisible ? 'h-full' : 'h-0'}`}></div>
+            <div className={`absolute bottom-0 left-0 h-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[600ms] ease-out origin-left ${isGridVisible ? 'w-full' : 'w-0'}`}></div>
+
+            <CountUpNumber target={15} suffix="+" />
             <p className="text-[#555555] text-[16px] leading-snug">
               Decades of reshaping the<br />standards of roofing design.
             </p>
           </div>
 
           {/* Top Right Cell */}
-          <div className="border-r border-b border-[#E5E5E5] p-8 md:p-12 flex flex-col justify-center">
-            <div className="text-[64px] font-bold leading-none mb-4 tracking-tight">20+</div>
+          <div className="relative p-8 md:p-12 flex flex-col justify-center">
+            {/* Animated Cell Borders */}
+            <div className={`absolute top-0 right-0 w-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[300ms] ease-out origin-top ${isGridVisible ? 'h-full' : 'h-0'}`}></div>
+            <div className={`absolute bottom-0 left-0 h-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[600ms] ease-out origin-left ${isGridVisible ? 'w-full' : 'w-0'}`}></div>
+
+            <CountUpNumber target={20} suffix="+" />
             <p className="text-[#555555] text-[16px] leading-snug">
               Experts who have a deep<br />understanding of the field.
             </p>
           </div>
 
           {/* Bottom Left Cell */}
-          <div className="border-r border-b border-[#E5E5E5] p-8 md:p-12 flex flex-col justify-center">
-            <div className="text-[64px] font-bold leading-none mb-4 tracking-tight">84+</div>
+          <div className="relative p-8 md:p-12 flex flex-col justify-center">
+            {/* Animated Cell Borders */}
+            <div className={`absolute top-0 right-0 w-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[300ms] ease-out origin-top ${isGridVisible ? 'h-full' : 'h-0'}`}></div>
+            <div className={`absolute bottom-0 left-0 h-[1px] bg-[#E5E5E5] transition-all duration-1000 delay-[600ms] ease-out origin-left ${isGridVisible ? 'w-full' : 'w-0'}`}></div>
+
+            <CountUpNumber target={84} suffix="+" />
             <p className="text-[#555555] text-[16px] leading-snug">
               Completed projects and<br />numerous satisfied clients.
             </p>
           </div>
 
           {/* Bottom Right Cell (Blue Box) */}
-          <div className="bg-[#126AB1] text-white p-8 md:p-12 flex flex-col justify-between border-b border-r border-[#126AB1]">
+          <div className={`relative bg-[#126AB1] text-white p-8 md:p-12 flex flex-col justify-between transition-opacity duration-1000 delay-[900ms] ${isGridVisible ? 'opacity-100' : 'opacity-0'}`}>
             <p className="text-[18px] leading-snug font-medium mb-12">
               Design isn&apos;t just what we see — it&apos;s<br />how a space lives with you.
             </p>

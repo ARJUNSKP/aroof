@@ -36,6 +36,11 @@ export default function HeroBanner() {
     return () => { isMounted = false; };
   }, []);
 
+  // Refs for smooth scrolling
+  const targetProgress = useRef(0);
+  const currentProgress = useRef(0);
+  const rafId = useRef<number>(0);
+
   // Handle scroll and drawing
   useEffect(() => {
     if (!isLoaded || images.length === 0 || !canvasRef.current || !containerRef.current) return;
@@ -48,7 +53,7 @@ export default function HeroBanner() {
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      drawFrame(Math.floor(scrollProgress * (frameCount - 1)));
+      drawFrame(Math.floor(currentProgress.current * (frameCount - 1)));
     };
     
     window.addEventListener('resize', resizeCanvas);
@@ -69,7 +74,21 @@ export default function HeroBanner() {
       ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
     }
 
-    // Scroll listener
+    // Smooth animation loop
+    const updateFrame = () => {
+      // Lerp (Linear Interpolation) to smooth out scroll movements
+      currentProgress.current += (targetProgress.current - currentProgress.current) * 0.08;
+      
+      // Update state for the text overlay to sync with the smooth animation
+      setScrollProgress(currentProgress.current);
+
+      const frameIndex = Math.floor(currentProgress.current * (frameCount - 1));
+      drawFrame(frameIndex);
+
+      rafId.current = requestAnimationFrame(updateFrame);
+    };
+
+    // Scroll listener just updates the target
     const handleScroll = () => {
       if (!containerRef.current) return;
       
@@ -81,22 +100,21 @@ export default function HeroBanner() {
       let progress = scrollY / maxScroll;
       progress = Math.max(0, Math.min(1, progress));
       
-      setScrollProgress(progress);
-      
-      const frameIndex = Math.floor(progress * (frameCount - 1));
-      drawFrame(frameIndex);
+      targetProgress.current = progress;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Initial draw
+    // Initial draw and start loop
     handleScroll();
+    rafId.current = requestAnimationFrame(updateFrame);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(rafId.current);
     };
-  }, [isLoaded, images, scrollProgress]);
+  }, [isLoaded, images]);
 
   return (
     // The container height controls how much the user has to scroll to see all frames.
@@ -122,19 +140,17 @@ export default function HeroBanner() {
         {/* Text Overlay matching the reference image */}
         {/* Text slides up and fades in only when scroll is > 95% complete */}
         <div 
-          className="absolute z-20 pointer-events-none transition-all duration-1000 ease-out"
+          className="absolute z-20 pointer-events-none transition-all duration-1000 ease-out left-5 md:left-11 bottom-10 md:bottom-[70px]"
           style={{ 
-            left: '44px',
-            bottom: '70px',
             opacity: scrollProgress > 0.95 ? 1 : 0,
             transform: `translateY(${scrollProgress > 0.95 ? '0' : '40px'})`,
           }}
         >
-          <div className="max-w-4xl">
-            <h1 className="text-5xl md:text-7xl text-white mb-4" style={{ fontFamily: 'var(--font-title)', fontWeight: 700 }}>
+          <div className="max-w-4xl pr-5">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl text-white mb-4" style={{ fontFamily: 'var(--font-title)', fontWeight: 700 }}>
               Welcome to A-Roof<br />(ASA Coating)
             </h1>
-            <p className="text-lg md:text-xl text-gray-200 pt-[18px]" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-base sm:text-lg md:text-xl text-gray-200 pt-[18px]" style={{ fontFamily: 'var(--font-body)' }}>
               A-roof's sheet is asa (acrylonitrile styrene acrylate) coated pvc roofing sheet.
             </p>
           </div>

@@ -1,22 +1,19 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent text-white py-[14px] px-[43px]" style={{padding:"14px 43px 14px 43px"}}>
+    <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent text-white py-[14px] px-5 md:px-[43px]">
       <div className="w-full flex items-center justify-between">
         {/* Logo Area */}
-        <div className="flex items-center gap-4">
-          <div className="w-[50px] h-[50px] bg-[#0E70B8] flex items-center justify-center">
-            {/* Custom Star Logo from screenshot */}
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="white">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          </div>
-          <div className="flex flex-col -mt-1">
-            <div className="text-[28px] font-bold leading-none tracking-tight">a.roof</div>
-            <div className="text-[10px] font-semibold tracking-wider mt-1">uPVC Roofing sheets</div>
-          </div>
-        </div>
+        <Link href="/" className="relative w-[150px] h-[50px]">
+          <Image 
+            src="/logo (3) 1.png" 
+            alt="A-Roof Logo" 
+            fill 
+            className="object-contain object-left" 
+          />
+        </Link>
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-[40px] text-[15px] font-medium font-body tracking-wide">

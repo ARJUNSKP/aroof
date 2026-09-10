@@ -1,32 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
   --font-title: "PP Pangaia", serif;
   --font-body: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-title);
-  font-weight: normal;
-}
-
 html {
   height: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
 
 @keyframes fadeInUp {

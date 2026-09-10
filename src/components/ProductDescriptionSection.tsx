@@ -27,38 +27,35 @@ export default function ProductDescriptionSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Use the placeholder image you provided
-  const placeholderImage = "/Image (Architects in action).png";
-
   return (
     // 200vh provides enough scroll area for a smooth, subtle parallax
-    <section ref={containerRef} className="relative w-full bg-[#F4F4F4]" style={{ height: '200vh' }}>
+    <section ref={containerRef} className="relative w-full bg-[#F5F5F5]" style={{ height: '200vh' }}>
 
       {/* Sticky Inner Container */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden py-[100px] px-[43px] flex items-center justify-center">
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden py-16 md:py-[100px] px-5 md:px-[43px] flex items-center justify-center">
 
         <div className="w-full max-w-[1440px] flex items-center justify-between">
 
           {/* Left Column (Scrolls UP as user scrolls down) */}
           {/* Subtle parallax: moves from 200px down to -200px up */}
           <div 
-            className="relative h-screen w-[280px]"
+            className="relative h-screen w-[280px] hidden md:block"
             style={{ transform: `translateY(${250 - scrollProgress * 500}px)` }}
           >
             {/* Image 1 - High up (matches left blue roof) */}
             <div className="absolute top-[10%] left-0 w-full h-[323px] overflow-hidden bg-gray-200">
-              <Image src={placeholderImage} alt="Roof" fill className="object-cover" />
+              <Image src="/a2b7cb330ce44cb06ac0cfbc7fb084cf29d3de45.jpg" alt="Roof" fill className="object-cover" />
             </div>
             {/* Image 2 - Very low (matches bottom left dark roof) */}
             <div className="absolute top-[85%] left-40 w-full h-[323px] overflow-hidden bg-gray-200">
-              <Image src={placeholderImage} alt="Roof" fill className="object-cover" />
+              <Image src="/24f016ffcc32b1a9760b844a9d31612cfaaf5d58.jpg" alt="Roof" fill className="object-cover" />
             </div>
           </div>
 
           {/* Center Static Content */}
-          <div className="relative z-10 w-full max-w-[560px] flex flex-col items-center text-center px-8">
+          <div className="relative z-10 w-full max-w-[560px] flex flex-col items-center text-center px-4 md:px-8 mx-auto">
             <h2
-              className="text-[44px] text-[#121212] md:text-[48px] leading-[1.1] mb-8 max-w-[450px]"
+              className="text-4xl md:text-[48px] text-[#121212] leading-[1.1] mb-8 max-w-[450px]"
               style={{ fontFamily: 'var(--font-title)' }}
             >
               A-Roof Product Description
@@ -77,16 +74,16 @@ export default function ProductDescriptionSection() {
           {/* Right Column (Scrolls DOWN as user scrolls down) */}
           {/* Subtle parallax: moves from -200px up to 200px down */}
           <div 
-            className="relative h-screen w-[280px]"
+            className="relative h-screen w-[280px] hidden md:block"
             style={{ transform: `translateY(${-250 + scrollProgress * 500}px)` }}
           >
             {/* Image 1 - Starts lower, aligned with paragraph (matches right brown roof) */}
             <div className="absolute top-[35%] left-0 w-full h-[323px] overflow-hidden bg-gray-200">
-              <Image src={placeholderImage} alt="Roof" fill className="object-cover" />
+              <Image src="/3d4b829266df1b7768572be6877db7831b9ca35f.jpg" alt="Roof" fill className="object-cover" />
             </div>
             {/* Image 2 - Extremely low (matches bottom right blue roof) */}
             <div className="absolute top-[95%] -left-40 w-full h-[323px] overflow-hidden bg-gray-200">
-              <Image src={placeholderImage} alt="Roof" fill className="object-cover" />
+              <Image src="/39918802124ea037b9498cb8e2063cdbfdd6598d (1).jpg" alt="Roof" fill className="object-cover" />
             </div>
           </div>
 
