@@ -53,6 +53,9 @@ export default function AboutSection() {
   const [isGridVisible, setIsGridVisible] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
 
+  const [isContentVisible, setIsContentVisible] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -69,17 +72,33 @@ export default function AboutSection() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsContentVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (contentRef.current) {
+      observer.observe(contentRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="w-full min-h-screen bg-white text-black py-16 md:py-[100px] px-5 md:px-[43px] relative z-10 flex flex-col justify-center">
       <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-y-[29px] lg:gap-x-[74px]">
 
         {/* Left Column */}
-        <div className="flex flex-col">
-          <h2 className="text-[44px] md:text-[56px] leading-[1.1] mb-6" style={{ fontFamily: 'var(--font-title)' }}>
+        <div ref={contentRef} className="flex flex-col">
+          <h2 className={`text-[44px] md:text-[56px] leading-[1.1] mb-6 transition-all duration-1000 ease-out ${isContentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ fontFamily: 'var(--font-title)' }}>
             A-Roof (ASA Coating)
           </h2>
 
-          <div className="text-[#555555] max-w-[560px] text-[16px] leading-relaxed space-y-6 mb-10">
+          <div className={`text-[#555555] max-w-[560px] text-[16px] leading-relaxed space-y-6 mb-10 transition-all duration-1000 delay-[200ms] ease-out ${isContentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
             <p>
               A-Roof is a innovative product by Aqua Star. (Ponnore Group). Keeping innovation at its
               core, the brand has successfully engraved a distinct space in the market within a very
@@ -91,7 +110,7 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="relative w-full mt-[30px] aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] overflow-hidden">
+          <div className={`relative w-full mt-[30px] aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] overflow-hidden transition-all duration-1000 delay-[400ms] ease-out ${isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <Image
               src="/Image (Architects in action).png"
               alt="Architects installing A-Roof"

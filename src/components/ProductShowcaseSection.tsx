@@ -10,11 +10,11 @@ export default function ProductShowcaseSection() {
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
-      
+
       const { top, height } = containerRef.current.getBoundingClientRect();
       const scrollY = -top;
       const scrollableHeight = height - window.innerHeight;
-      
+
       // Calculate progress from 0 to 1 as user scrolls
       const progress = Math.max(0, Math.min(1, scrollY / scrollableHeight));
       setScrollProgress(progress);
@@ -38,20 +38,29 @@ export default function ProductShowcaseSection() {
   return (
     // 400vh allows enough vertical scroll distance to smoothly transition through 3 slides
     <section ref={containerRef} className="relative w-full bg-black" style={{ height: '400vh' }}>
-      
+
       {/* Sticky Inner Container */}
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden bg-black text-white">
-        
+
         {/* Spotlight Effect */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none">
           {/* Lamp Image */}
           <div className="w-[300px] h-[150px] relative">
-            <Image 
-              src="/eade6487ebe08d5f127a563531e1bec0f245865b.png" 
-              alt="Lamp" 
-              fill 
-              className="object-contain object-top" 
+            <Image
+              src="/eade6487ebe08d5f127a563531e1bec0f245865b.png"
+              alt="Lamp"
+              fill
+              className="object-contain object-top relative z-10"
             />
+            {/* Tile placed at bottom of lamp */}
+            <div className="absolute top-[120px] left-1/2 -translate-x-1/2 w-[1600px] h-[600px]">
+              <Image
+                src="/6f75e4a0f8e7195bf25b461461d6c7d99d3c7b3d.png"
+                alt="Tile"
+                fill
+                className="object-contain object-top"
+              />
+            </div>
           </div>
           {/* Light Cone */}
           <div className="w-[800px] h-[800px] bg-white opacity-[0.03] -mt-10" style={{
@@ -79,12 +88,12 @@ export default function ProductShowcaseSection() {
         {/* Navigation Arrows */}
         <div className="hidden md:block absolute top-1/2 -translate-y-1/2 left-[40px] z-30">
           <div className="w-[50px] h-[50px] rounded-full border border-white/20 bg-white flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           </div>
         </div>
         <div className="hidden md:block absolute top-1/2 -translate-y-1/2 right-[40px] z-30">
           <div className="w-[50px] h-[50px] rounded-full border border-white/20 bg-white flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </div>
         </div>
 
@@ -95,7 +104,7 @@ export default function ProductShowcaseSection() {
 
         {/* Fixed Large Overlay Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none w-full text-center">
-          <h2 
+          <h2
             className="text-[8vw] font-thin tracking-wider text-white mix-blend-overlay transition-opacity duration-300"
             style={{ fontFamily: '"Avenir Next", sans-serif' }}
           >
@@ -105,18 +114,18 @@ export default function ProductShowcaseSection() {
 
         {/* Horizontal Scrolling Track */}
         {/* We have 3 slides, so track width is 300vw. We translate from 0 to -200vw. */}
-        <div 
+        <div
           className="flex h-full w-[300vw]"
           style={{ transform: `translateX(-${scrollProgress * 200}vw)` }}
         >
           {slides.map((slide, index) => (
             <div key={index} className="w-screen h-full flex items-center justify-center relative">
-              
+
               {/* Product Image ONLY */}
               <div className="w-[600px] h-[400px] relative z-10 transition-transform duration-700 ease-out hover:scale-105">
                 <Image src={slide.image} alt={slide.title} fill className="object-contain" />
               </div>
-              
+
             </div>
           ))}
         </div>
