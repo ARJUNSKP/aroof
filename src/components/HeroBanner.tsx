@@ -8,6 +8,7 @@ export default function HeroBanner() {
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [loadedCountState, setLoadedCountState] = useState(0);
 
   const frameCount = 240; // The number of frames we extracted from the GIF
 
@@ -24,8 +25,11 @@ export default function HeroBanner() {
       img.src = `/hero-frames/${imgNumber}.png`;
       img.onload = () => {
         loadedCount++;
-        if (loadedCount === frameCount && isMounted) {
-          setIsLoaded(true);
+        if (isMounted) {
+          setLoadedCountState(loadedCount);
+          if (loadedCount === frameCount) {
+            setIsLoaded(true);
+          }
         }
       };
       loadedImages.push(img);
@@ -129,8 +133,30 @@ export default function HeroBanner() {
         
         {/* Loading State */}
         {!isLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10 text-white font-medium tracking-wide">
-            Loading interactive banner...
+          <div className="absolute inset-0 flex items-center justify-center bg-black z-20">
+            <div className="relative flex items-center justify-center">
+              <svg width="120" height="120" viewBox="0 0 120 120" className="-rotate-90">
+                {/* Background circle */}
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="rgba(255,255,255,0.1)" strokeWidth="4" />
+                {/* Progress circle */}
+                <circle 
+                  cx="60" 
+                  cy="60" 
+                  r="50" 
+                  fill="transparent" 
+                  stroke="white" 
+                  strokeWidth="4" 
+                  strokeDasharray={`${2 * Math.PI * 50}`}
+                  strokeDashoffset={`${2 * Math.PI * 50 * (1 - loadedCountState / frameCount)}`}
+                  className="transition-all duration-100 ease-out"
+                />
+              </svg>
+              <div className="absolute flex flex-col items-center justify-center text-white">
+                <span className="text-xl font-bold tracking-wider" style={{ fontFamily: 'var(--font-title)' }}>
+                  {Math.round((loadedCountState / frameCount) * 100)}%
+                </span>
+              </div>
+            </div>
           </div>
         )}
 
